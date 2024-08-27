@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<int> vis, tin, low;
+    int timer = 0;
+    set<int> ans; // Using a set to ensure uniqueness
+
+    void dfs(int n, int p, vector<int> adj[]) {
+        vis[n] = 1;
+        tin[n] = low[n] = timer++;
+        int child = 0;
+
+        for (auto v : adj[n]) {
+            if (v == p) continue;
+
+            if (vis[v]) {
+                // If the node is already visited, it's a back edge
+                low[n] = min(low[n], tin[v]);
+            } else {
+                dfs(v, n, adj);
+                low[n] = min(low[n], low[v]);
+
+                // Check if the current node is an articulation point
+                if (low[v] >= tin[n] && p != -1) {
+                    ans.insert(n); // Use set to avoid duplicates
+                }
+                child++;
+            }
+        }
+
+        // Special case for root node
+        if (p == -1 && child > 1) {
+            ans.insert(n);
+        }
+    }
+
+    vector<int> articulationPoints(int v, vector<int> adj[]) {
+        vis.assign(v, 0);
+        tin.assign(v, -1);
+        low.assign(v, -1);
+        timer = 0;
+        ans.clear();
+
+        for (int i = 0; i < v; i++) {
+            if (!vis[i]) {
+                dfs(i, -1, adj); // Start DFS with -1 as parent for the root
+            }
+        }
+
+        // Convert the set to vector and return the articulation points
+        if (ans.empty()) return {-1}; // As per the problem, return -1 if no articulation points
+        return vector<int>(ans.begin(), ans.end());
+    }
+};
