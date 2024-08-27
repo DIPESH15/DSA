@@ -1,0 +1,25 @@
+// function to find longest common subsequence
+
+class Solution
+{
+    public:
+    //Function to find the length of longest common subsequence in two strings.
+    int dp[1050][1050];
+    int solve(int n, int m, string &s1, string &s2,int i,int j){
+        if(i==n || j==m)return 0;
+        if(dp[i][j]!=-1)return dp[i][j];
+        int ans=0;
+        if(s1[i]==s2[j]){
+            ans=max(ans,1+solve(n,m,s1,s2,i+1,j+1));
+        }
+        ans=max(ans,solve(n,m,s1,s2,i,j+1));
+        ans=max(ans,solve(n,m,s1,s2,i+1,j));
+        return dp[i][j]=ans;
+    }
+    int lcs(int n, int m, string s1, string s2)
+    {
+        // your code here
+        memset(dp,-1,sizeof(dp));
+        return solve(n,m,s1,s2,0,0); 
+    }
+};
