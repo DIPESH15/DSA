@@ -1,0 +1,16 @@
+bool isBstHelper(Node* root, int minVal, int maxVal) {
+    if (root == NULL) {
+        return true;
+    }
+    
+    if (root->val <= minVal || root->val >= maxVal) {
+        return false;
+    }
+
+    return isBstHelper(root->left, minVal, root->val) && 
+           isBstHelper(root->right, root->val, maxVal);
+}
+
+bool isBst(Node* root) {
+    return isBstHelper(root, INT_MIN, INT_MAX);
+}
