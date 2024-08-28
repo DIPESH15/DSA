@@ -1,0 +1,11 @@
+ void mirror(Node* node) {
+        // code here
+          if (node == NULL) return;
+
+        // calling mirror function recursively for left and right subtrees.
+        mirror(node->left);
+        mirror(node->right);
+
+        // swapping the left and right subtree.
+        swap(node->left, node->right);
+    }
