@@ -1,0 +1,49 @@
+bool isleaf(Node* root){
+    if(root->left==NULL&&root->right==NULL){
+        return true;
+    }
+    return false;
+}
+void addleft(Node* root,vector<int> &res){
+    Node* curr=root->left;
+    while(curr){
+        if(!isleaf(curr))res.push_back(curr->val);
+        if(curr->left)curr=curr->left;
+        else curr=curr->right;
+    }
+}
+void addright(Node* root,vector<int> &res){
+    Node* curr=root->right;
+    vector<int> temp;
+    while(curr){
+        if(!isleaf(curr))temp.push_back(curr->val);
+        if(curr->right)curr=curr->right;
+        else curr=curr->left;
+    }
+    for(int i=temp.size()-1;i>=0;i--){
+        res.push_back(temp[i]);
+    }
+}
+void addleaf(Node* root,vector<int> &res){
+    if(isleaf(root)){
+        res.push_back(root->val);
+        return;
+    }
+    if(root->left)addleaf(root->left,res);
+    if(root->right)addleaf(root->right,res);
+}
+
+void printBoundary(struct Node* root)
+{
+    // Complete the solution
+    vector<int> res;
+    if(root==nullptr)return ;
+    if(!isleaf(root))res.push_back(root->val);
+    addleft(root,res);
+    addleaf(root,res);
+    addright(root,res);
+    for(int i=0;i<res.size();i++){
+        cout<<res[i]<<" ";
+    }
+    cout<<endl;
+}
