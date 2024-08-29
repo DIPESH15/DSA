@@ -1,0 +1,23 @@
+void dfs(Node* root, int depth, map<int, vector<int>> &temp){
+    if(root == NULL) return;
+
+    temp[depth].push_back(root->val);
+
+    dfs(root->left, depth + 1, temp);
+    dfs(root->right, depth, temp);
+}
+
+vector<vector<int>> getDiagonalLevelorderTraversal(Node* root) {
+  // Complete the function.
+   vector<vector<int>> ans;
+    map<int, vector<int>> temp;
+    dfs(root, 0, temp);
+    for(auto ch: temp){
+        ans.push_back(ch.second);
+    }
+    vector<vector<int>> ans1;
+    for(int i=ans.size()-1;i>=0;i--){
+        ans1.push_back(ans[i]);
+    }
+    return ans1;
+}
